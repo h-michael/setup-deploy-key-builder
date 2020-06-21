@@ -1,0 +1,15 @@
+# In this directory, run the following command to build this builder.
+# $ gcloud builds submit . --config=cloudbuild.yaml
+
+steps:
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '--tag=gcr.io/$PROJECT_ID/setup-deploy-key-builder', '-f', 'Dockerfile', '.']
+
+# Confirm that auth is piped through correctly.
+- name: 'gcr.io/cloud-builders/gcloud'
+  args: ['builds', 'list']
+
+images:
+- 'gcr.io/$PROJECT_ID/setup-deploy-key-builder'
+
+timeout: 1200s
